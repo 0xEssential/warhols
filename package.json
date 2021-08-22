@@ -1,0 +1,23 @@
+{
+  "private": true,
+  "name": "smartist-contract",
+  "version": "0.0.1-alpha",
+  "description": "Template for ERC721 contract for digital artists alongside a minting app",
+  "repository": "github:0xessential/smartist-contract",
+  "author": "sbauch",
+  "license": "MIT",
+  "keywords": [
+    "ethereum",
+    "smart-contracts",
+    "template",
+    "boilerplate",
+    "hardhat",
+    "solidity",
+    "ERC721",
+    "NFT"
+  ],
+  "workspaces": [
+    "./contract",
+    "./mint-app"
+  ]
+}
