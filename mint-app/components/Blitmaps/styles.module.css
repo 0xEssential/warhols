@@ -1,0 +1,26 @@
+.root {
+  /* border: 4px dashed #FF748A;
+  border-radius: 12px; */
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: var(--pink);
+  border-radius: 16px;
+}
+
+.root > img {
+  max-width: 33%;
+  margin-right: 2em;
+}
+
+.blits {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.blits > img {
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+}

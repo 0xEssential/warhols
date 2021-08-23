@@ -2,15 +2,47 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+h1, h2, h3 {
+  font-family: 'Bangers', cursive;
+  letter-spacing: 4px;
+  color: var(--red);
+  text-shadow: 4px 4px 0px var(--yellow);
+}
+
+:root {
+  --red: #FE0879;
+  --pink: #FF82E2;
+  --yellow: #FED715;
+  --blue: #0037B3;
+  --light-blue: #70BAFF;
+}
+
+
+p {
+  line-height: 1.5;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+  color:var(--yellow);
 }
 
 * {
   box-sizing: border-box;
+}
+
+hr { 
+  margin: 2rem 0;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 8px;
 }

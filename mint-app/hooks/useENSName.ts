@@ -17,7 +17,9 @@ export default function useENSName(address: string) {
             setENSName(name);
           }
         })
-        .catch(() => {});
+        .catch((e) => {
+          console.error(e);
+        });
 
       return () => {
         stale = true;

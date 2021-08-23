@@ -1,0 +1,19 @@
+.root {
+  /* border: 4px dashed #FF748A;
+  border-radius: 12px; */
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: var(--light-blue);
+  border-radius: 16px;
+}
+
+
+.form {
+  margin: 12px 0;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+}
