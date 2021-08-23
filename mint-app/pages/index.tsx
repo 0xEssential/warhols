@@ -5,7 +5,7 @@ import Mint from '../components/Mint';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
-  const [blitmapId, setBlitmapId] = useState<string>('100');
+  const [blitmapId, setBlitmapId] = useState<string>();
   return (
     <div className={styles.container}>
       <main className={styles.main}>
@@ -46,11 +46,10 @@ export default function Home() {
           </div>
         </div>
         <div className={styles.article}>
-          <h1>Intro</h1>
           <p>
             <strong>Blitpops</strong> are a collection of NFT artworks derived
-            from the Blitmap project. Each Blitpop is based on the Blitmap with
-            the corresponding token ID. Blitpops are inspired by Andy
+            from the Blitmap project. Each Blitpop is derived from the Blitmap
+            with the corresponding token ID. Blitpops are inspired by Andy
             Warhol&apos;s pop art collages of Campbell&apos;s Soup and Marilyn
             Monroe, as well as Warhol&apos;s general attitudes towards art and
             business.

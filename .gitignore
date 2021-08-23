@@ -20,3 +20,5 @@ deployments/hardhat
 deployments/localhost
 
 .DS_Store
+# Local Netlify folder
+.netlify

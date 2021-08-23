@@ -33,7 +33,7 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
   };
 
   const [filterState, dispatch] = useReducer(reducer, initialState);
-  console.warn('FS', filterState);
+
   const fetchBlitpopSvg = async (id, _filterState, provider) => {
     const Blitpop = BlitpopContract.connect(provider);
     console.warn(...Object.values(_filterState));
@@ -44,7 +44,7 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
 
   const { data: filters } = useSWR(provider ? 'filters' : null, {
     fetcher: async () => {
-      if (!provider) return;
+      if (!provider || !blitmapId) return;
       return new Promise<any[]>(async (resolve, _reject) => {
         const jsonProvider = new InfuraProvider(
           'rinkeby',
@@ -59,7 +59,7 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
 
   const { data: owner } = useSWR(provider ? 'owner' : null, {
     fetcher: async () => {
-      if (!provider) return;
+      if (!provider || !blitmapId) return;
       return new Promise<string>(async (resolve, _reject) => {
         const connected = BlitpopContract.connect(provider);
         const owner = await connected.ownerOf(BigNumber.from(blitmapId));
@@ -75,7 +75,7 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
   ));
 
   useEffect(() => {
-    if (!provider) return;
+    if (!provider || !blitmapId) return;
     fetchBlitpopSvg(blitmapId, filterState, provider);
   }, [filterState, provider]);
 
@@ -88,7 +88,16 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
     const connected = BlitpopContract.connect(provider.getSigner());
     connected.updateFilters('100', ...Object.values(filterState));
   };
-  console.warn(owner, address);
+
+  if (!blitmapId) {
+    return (
+      <div className={styles.root}>
+        <h1>Blitpop Minter</h1>
+        <p>Choose a Blitmap to mint a Blitpop</p>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.root}>
       <h1>Blitpop Minter</h1>
