@@ -56,14 +56,16 @@ export default function Blitmaps({
 
   if (!address) {
     return (
-      <Button
-        onClick={async () => {
-          await onboard.checkWallet();
-          await onboard.connect();
-        }}
-      >
-        Connect Wallet
-      </Button>
+      <div className={styles.root}>
+        <Button
+          onClick={async () => {
+            await onboard.checkWallet();
+            await onboard.connect();
+          }}
+        >
+          Connect Wallet
+        </Button>
+      </div>
     );
   }
 
