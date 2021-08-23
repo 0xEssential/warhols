@@ -1,6 +1,6 @@
 import { Contract } from '@ethersproject/contracts';
 import { MintableNonFungibleToken } from 'non-fungible-token-abi';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import useSWR from 'swr';
 
 import { Web3Context } from '../../contexts/web3Context';
@@ -12,7 +12,11 @@ const BlitmapContract = new Contract(process.env.BLITMAP_CONTRACT_ADDRESS, [
   'function tokenSvgDataOf(uint256 tokenId) public view returns (string memory)',
 ]);
 
-export default function Blitmaps({ onSelect }) {
+export default function Blitmaps({
+  onSelect,
+}: {
+  onSelect: (id: string) => void;
+}) {
   const [loading, setLoading] = useState(false);
   const { address, onboard, provider } = useContext(Web3Context);
 
@@ -71,7 +75,7 @@ export default function Blitmaps({ onSelect }) {
         {loading && <p>Loading</p>}
         {data?.map(({ tokenId, svgData }) => (
           <img
-            onClick={onSelect}
+            onClick={() => onSelect(tokenId)}
             key={tokenId}
             src={`data:image/svg+xml;base64,${btoa(svgData)}`}
           />

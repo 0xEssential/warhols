@@ -20,7 +20,7 @@ const initialState = {
   filter3: 'electric-chair',
 };
 
-export default function Mint({ blitmapId }) {
+export default function Mint({ blitmapId }: { blitmapId: string }) {
   const { address, provider } = useContext(Web3Context);
   const [svg, setSvg] = useState<string>();
 

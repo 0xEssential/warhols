@@ -1,13 +1,11 @@
-import Head from 'next/head';
 import React, { useState } from 'react';
 
 import Blitmaps from '../components/Blitmaps';
-import Button from '../components/Button';
 import Mint from '../components/Mint';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
-  const [blitmapId, setBlitmapId] = useState<string>();
+  const [blitmapId, setBlitmapId] = useState<string>('100');
   return (
     <div className={styles.container}>
       <main className={styles.main}>
@@ -84,7 +82,7 @@ export default function Home() {
           </p>
           <div className={styles.mintRow}>
             <Blitmaps onSelect={setBlitmapId} />
-            <Mint blitmapId="100" />
+            <Mint blitmapId={blitmapId} />
           </div>
         </div>
       </main>
