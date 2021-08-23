@@ -3,6 +3,7 @@ import {HardhatUserConfig} from 'hardhat/types';
 import 'hardhat-deploy';
 import 'hardhat-deploy-ethers';
 import 'hardhat-gas-reporter';
+import 'hardhat-abi-exporter';
 import '@typechain/hardhat';
 import '@nomiclabs/hardhat-etherscan';
 import 'solidity-coverage';
@@ -18,6 +19,12 @@ const config: HardhatUserConfig = {
       },
     },
   },
+  // abiExporter: {
+  //   path: './abis/',
+  //   clear: true,
+  //   flat: true,
+  //   spacing: 2
+  // },
   namedAccounts: {
     deployer: 0,
   },
@@ -65,7 +72,7 @@ const config: HardhatUserConfig = {
   gasReporter: {
     currency: 'USD',
     gasPrice: 100,
-    enabled: process.env.REPORT_GAS ? true : false,
+    enabled: false, //process.env.REPORT_GAS ? true : false,
     coinmarketcap: process.env.COINMARKETCAP_API_KEY,
     maxMethodDiff: 10,
   },
