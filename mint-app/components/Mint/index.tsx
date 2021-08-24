@@ -1,6 +1,7 @@
 import { Contract } from '@ethersproject/contracts';
 import { InfuraProvider } from '@ethersproject/providers';
 import { BigNumber } from 'ethers';
+import parseDataUri from 'parse-data-uri';
 import React, { useContext, useEffect, useReducer, useState } from 'react';
 import useSWR from 'swr';
 
@@ -25,7 +26,6 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
   const [svg, setSvg] = useState<string>();
 
   const reducer = (state, action) => {
-    console.warn(state, action);
     return {
       ...state,
       [action.attribute]: action.value,
@@ -36,9 +36,7 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
 
   const fetchBlitpopSvg = async (id, _filterState, provider) => {
     const Blitpop = BlitpopContract.connect(provider);
-    console.warn(...Object.values(_filterState));
     const svg = await Blitpop.svgBase64Data(id, ...Object.values(_filterState));
-    console.warn(svg);
     setSvg(svg);
   };
 
@@ -62,12 +60,24 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
       if (!provider || !blitmapId) return;
       return new Promise<string>(async (resolve, _reject) => {
         const connected = BlitpopContract.connect(provider);
-        const owner = await connected.ownerOf(BigNumber.from(blitmapId));
-        resolve(owner.toLowerCase());
+        const owner = await connected
+          .ownerOf(BigNumber.from(blitmapId))
+          .catch(() => {
+            return _reject();
+          });
+
+        if (owner) {
+          const uri = await connected.tokenURI(BigNumber.from(blitmapId));
+          const json = parseDataUri(uri);
+          const metadata = JSON.parse(json.data);
+          setSvg(metadata.image);
+        }
+
+        resolve(owner?.toLowerCase());
       });
     },
   });
-  console.warn('owner', owner);
+
   const options = filters?.map((f, index) => (
     <option key={index} value={f}>
       {f}
@@ -81,12 +91,18 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
 
   const mint = async () => {
     const connected = BlitpopContract.connect(provider.getSigner());
-    connected.ownerMint('100', ...Object.values(filterState));
+    connected.ownerMint(
+      BigNumber.from(blitmapId),
+      ...Object.values(filterState),
+    );
   };
 
   const updateFilters = async () => {
     const connected = BlitpopContract.connect(provider.getSigner());
-    connected.updateFilters('100', ...Object.values(filterState));
+    connected.updateFilters(
+      BigNumber.from(blitmapId),
+      ...Object.values(filterState),
+    );
   };
 
   if (!blitmapId) {

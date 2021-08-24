@@ -3,18 +3,17 @@
 pragma solidity >=0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/introspection/ERC165Storage.sol";
+
 
 import {IBlitmap} from "../Interfaces/IBlitmap.sol";
 import {Base64} from "../Base64.sol";
 import {strings} from "../StringUtils.sol";
 
 
-contract Blitpops is ERC721, Ownable, ERC165Storage {
+contract Blitpops is Ownable, ERC165Storage, ERC721Enumerable {
     using strings for *;
-    using Counters for Counters.Counter;
 
     uint256 public constant MINT_PRICE = 0.02 ether;
     uint256 public constant ROYALTY_AMOUNT = 10;
@@ -22,8 +21,6 @@ contract Blitpops is ERC721, Ownable, ERC165Storage {
     address public BLITMAP_ADDRESS;
     mapping(string => string) internal filters;
     string[] internal filterNames;
-
-    Counters.Counter private filterMaxId;
 
     struct FilterMatrix {
         string filter1;
@@ -35,15 +32,17 @@ contract Blitpops is ERC721, Ownable, ERC165Storage {
     constructor(address blitmapAddress) payable ERC721("Blitmonroes", "BLITMON") {
         _registerInterface(_INTERFACE_ID_ERC2981);
         BLITMAP_ADDRESS = blitmapAddress;
+        filters['og'] = '<svg>';
         filters['campbells'] = '<filter id="campbells"><feColorMatrix type="matrix" values="1 0 0 1.9 -2.2 0 1 0 0.0 0.3 0 0 1 0 0.5 0 0 0 1 0.2"></feColorMatrix></filter><svg filter="url(#campbells)">';
         filters['electric-chair'] = '<filter id="ec"><feColorMatrix type="matrix" values="1 0 0 0 0 -0.4 1.3 -0.4 0.2 -0.1 0 0 1 0 0 0 0 0 1 0"></feColorMatrix></filter><svg filter="url(#ec)">';
         filters['marilyn'] = '<filter id="marilyn"><feColorMatrix type="matrix" values="1 0 0 1.7 -1.6 0 1 0 0.0 0.3 -0.7 0 1 0 0.5 0 0 0 1 0.2"></feColorMatrix></filter><svg filter="url(#marilyn)">';
-        filterMaxId._value = 2;
-        filterNames = ['campbells', 'electric-chair', 'marilyn'];
+        filters['brillo'] = '<filter id="brillo"><feColorMatrix type="matrix" values="0 1.0 0 0 0 0 1.0 0 0 0 0 0.6 1 0 0 0 0 0 1 0 "/></filter><svg filter="url(#brillo)">';
+        filters['b&w'] = '<filter id="bw"><feColorMatrix type="matrix" values="0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 1 0 "/></filter><svg filter="url(#bw)">';
+        filterNames = ['og', 'campbells', 'electric-chair', 'marilyn', 'brillo', 'b&w'];
     }
 
     function addFilter(string memory name, string memory filter) public onlyOwner {
-        filterMaxId.increment();
+        filterNames.push(name);
         filters[name] = filter;
     }
 
@@ -158,7 +157,7 @@ contract Blitpops is ERC721, Ownable, ERC165Storage {
         return (owner(), royaltyAmount);
     }
 
-    function supportsInterface(bytes4 interfaceId) public view override(ERC165Storage, ERC721) returns (bool) {
+    function supportsInterface(bytes4 interfaceId) public view override(ERC165Storage, ERC721Enumerable) returns (bool) {
         return ERC165Storage.supportsInterface(interfaceId);
     }
 }

@@ -1,30 +1,32 @@
 import { Contract } from '@ethersproject/contracts';
-import { MintableNonFungibleToken } from 'non-fungible-token-abi';
 import React, { useContext, useState } from 'react';
 import useSWR from 'swr';
 
+import {
+  abi,
+  address as contractAddress,
+} from '../../../contract/deployments/rinkeby/Blitpops.json';
 import { Web3Context } from '../../contexts/web3Context';
 import Button from '../Button';
 import styles from './styles.module.css';
 
-const BlitmapContract = new Contract(process.env.BLITMAP_CONTRACT_ADDRESS, [
-  ...MintableNonFungibleToken,
-  'function tokenSvgDataOf(uint256 tokenId) public view returns (string memory)',
-]);
+const BlitpopContract = new Contract(contractAddress, abi);
 
-export default function Blitmaps({
+export default function Blitpops({
   onSelect,
 }: {
   onSelect: (id: string) => void;
 }) {
   const [loading, setLoading] = useState(false);
   const { address, onboard, provider } = useContext(Web3Context);
+  console.warn(address, 'ADDRESS');
 
-  const { data } = useSWR(address ? 'owned' : null, {
+  const { data, error } = useSWR(address ? 'ownedPops' : null, {
     fetcher: async () => {
       setLoading(true);
+
       return new Promise<any[]>(async (resolve, _reject) => {
-        const contract = BlitmapContract.connect(provider);
+        const contract = BlitpopContract.connect(provider);
         const count = await contract.balanceOf(address).catch(() => {
           return resolve([]);
         });
@@ -33,23 +35,14 @@ export default function Blitmaps({
 
         for (let index = 0; index < count; index++) {
           const token = await contract.tokenOfOwnerByIndex(address, index);
-          const svgData = await contract.tokenSvgDataOf(token);
-
-          blits.push({ tokenID: token.toString(), svgData });
+          const tokenData = await contract.tokenURI(token);
+          console.warn(tokenData);
+          const json = atob(tokenData.substring(29));
+          blits.push({ tokenID: token.toString(), ...JSON.parse(json) });
         }
+
         setLoading(false);
-        resolve([
-          ...blits,
-          ...blits,
-          ...blits,
-          ...blits,
-          ...blits,
-          ...blits,
-          ...blits,
-          ...blits,
-          ...blits,
-          ...blits,
-        ]);
+        resolve(blits);
       });
     },
   });
@@ -71,16 +64,11 @@ export default function Blitmaps({
 
   return (
     <div className={styles.root}>
-      <h1>Your Blitmaps</h1>
-      <p>Choose a Blitmap to mint a Blitpop</p>
+      <h1>Your Blitpops</h1>
+      {loading ? <p>Loading</p> : <p>Choose a Blitpop to update filters</p>}
       <div className={styles.blits}>
-        {loading && <p>Loading</p>}
-        {data?.map(({ tokenId, svgData }) => (
-          <img
-            onClick={() => onSelect(tokenId)}
-            key={tokenId}
-            src={`data:image/svg+xml;base64,${btoa(svgData)}`}
-          />
+        {data?.map(({ tokenId, image }) => (
+          <img onClick={() => onSelect(tokenId)} key={tokenId} src={image} />
         ))}
       </div>
     </div>

@@ -1,14 +1,17 @@
 .root {
+  /* border: 4px dashed #FF748A;
+  border-radius: 12px; */
   padding: 40px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background: var(--pink);
+  background: var(--blue);
   border-radius: 16px;
   flex-grow: 1;
-  margin-bottom: 16px;
-  box-shadow: 12px 12px 0px var(--blue);
-
+  margin-top: 16px;
+  color: var(--yellow);
+  box-shadow: 12px 12px 0px var(--pink);
+  ;
 }
 
 .wallet {

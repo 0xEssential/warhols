@@ -5,13 +5,14 @@ body {
   font-family: 'Montserrat', sans-serif;
   overflow: hidden;
   overscroll-behavior: none;
+  background-color: #FED715;
 }
 
 h1, h2, h3 {
   font-family: 'Bangers', cursive;
   letter-spacing: 4px;
   color: var(--red);
-  text-shadow: 4px 4px 0px var(--yellow);
+  text-shadow: 2px 2px 0px var(--yellow);
 }
 
 :root {
@@ -28,7 +29,7 @@ p {
 }
 
 a {
-  color:var(--yellow);
+  color:var( --red);
 }
 
 * {
