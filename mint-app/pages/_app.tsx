@@ -36,6 +36,40 @@ function MyApp({ Component, pageProps }: AppProps) {
           href="https://fonts.googleapis.com/css2?family=Bangers&family=Montserrat&display=swap"
           rel="stylesheet"
         />
+
+        <title>BlitPop</title>
+        <meta name="title" content="BlitPop" />
+        <meta
+          name="description"
+          content="Onchain Blitmap derivatives in a pop art style"
+        />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://blitpop.0xessential.com/" />
+        <meta property="og:title" content="BlitPop" />
+        <meta
+          property="og:description"
+          content="Onchain Blitmap derivatives in a pop art style"
+        />
+        <meta
+          property="og:image"
+          content="https://blitpop.0xessential.com/burger.png"
+        />
+
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta
+          property="twitter:url"
+          content="https://blitpop.0xessential.com/"
+        />
+        <meta property="twitter:title" content="BlitPop" />
+        <meta
+          property="twitter:description"
+          content="Onchain Blitmap derivatives in a pop art style"
+        />
+        <meta
+          property="twitter:image"
+          content="https://blitpop.0xessential.com/burger.png"
+        ></meta>
       </Head>
       <Web3ContextProvider>
         <Layout>

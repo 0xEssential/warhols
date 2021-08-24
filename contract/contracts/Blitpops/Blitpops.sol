@@ -61,14 +61,14 @@ contract Blitpops is Ownable, ERC165Storage, ERC721Enumerable {
         string memory filter1,
         string memory filter2,
         string memory filter3) public payable {
-        if (block.timestamp <= ownerSaleEnd){
-            require(msg.value == MINT_PRICE, "Bp:oM:402");
-            require(msg.sender == IBlitmap(BLITMAP_ADDRESS).ownerOf(tokenId), "Bp:oM:403");
-        }
+        // if (block.timestamp <= ownerSaleEnd){
+        //     require(msg.value == MINT_PRICE, "Bp:oM:402");
+        //     require(msg.sender == IBlitmap(BLITMAP_ADDRESS).ownerOf(tokenId), "Bp:oM:403");
+        // }
 
-        if (block.timestamp > ownerSaleEnd) {
-            require(msg.sender == owner(), "Bp:oM:403");
-        }
+        // if (block.timestamp > ownerSaleEnd) {
+        //     require(msg.sender == owner(), "Bp:oM:403");
+        // }
 
         filterMap[tokenId] = FilterMatrix({
             filter1: filter1,
@@ -106,9 +106,9 @@ contract Blitpops is Ownable, ERC165Storage, ERC721Enumerable {
                     Base64.encode(
                         bytes(
                             abi.encodePacked(
-                                '{"name":"Blitmonroes ',
+                                '{"name":"Blitpop ',
                                 IBlitmap(BLITMAP_ADDRESS).tokenNameOf(tokenId),
-                                '", "description":"Blitmonroes are onchain Blitmap derivatives. To construct the artwork, the original Blitmap with corresponding token ID is fetched, collaged and filtered to return a modified onchain SVG.',
+                                '", "description":"Blitpops are onchain Blitmap derivatives. To construct the artwork, the original Blitmap with corresponding token ID is fetched, collaged and filtered to return a modified onchain SVG.',
                                 '", "image": "',
                                 svgBase64Data(tokenId, tokenFilters.filter1, tokenFilters.filter2, tokenFilters.filter3),
                                 '"}'
