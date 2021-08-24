@@ -50,11 +50,7 @@ export default function Home() {
       <div className={styles.footer}>
         <p>
           a{' '}
-          <a
-            href="https://discord.gg/4K5EwWgCMn"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href="https://0xessential.com" target="_blank" rel="noreferrer">
             0xEssential
           </a>{' '}
           joint
