@@ -16,7 +16,7 @@ describe.only('Warhols', function () {
       const Blitmap = await BlitmapMock.deploy();
 
       const WarholsContract = await ethers.getContractFactory(
-        'Warhols'
+        'Blitpops'
       );
 
       const Warhols = await WarholsContract.deploy(

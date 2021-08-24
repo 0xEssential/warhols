@@ -21,7 +21,7 @@ export default function Blitpops({
   const { address, onboard, provider } = useContext(Web3Context);
   console.warn(address, 'ADDRESS');
 
-  const { data, error } = useSWR(address ? 'ownedPops' : null, {
+  const { data } = useSWR(address ? 'ownedPops' : null, {
     fetcher: async () => {
       setLoading(true);
 
@@ -65,7 +65,7 @@ export default function Blitpops({
   return (
     <div className={styles.root}>
       <h1>Your Blitpops</h1>
-      {loading ? <p>Loading</p> : <p>Choose a Blitpop to update filters</p>}
+      <p>Choose a Blitpop to update filters</p>
       <div className={styles.blits}>
         {data?.map(({ tokenId, image }) => (
           <img onClick={() => onSelect(tokenId)} key={tokenId} src={image} />

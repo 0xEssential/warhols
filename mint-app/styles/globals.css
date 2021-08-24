@@ -13,6 +13,7 @@ h1, h2, h3 {
   letter-spacing: 4px;
   color: var(--red);
   text-shadow: 2px 2px 0px var(--yellow);
+  margin-bottom: 0;
 }
 
 :root {
@@ -26,6 +27,7 @@ h1, h2, h3 {
 
 p {
   line-height: 1.5;
+  color: var(--yellow);
 }
 
 a {

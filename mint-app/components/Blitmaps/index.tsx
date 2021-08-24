@@ -38,18 +38,7 @@ export default function Blitmaps({
           blits.push({ tokenID: token.toString(), svgData });
         }
         setLoading(false);
-        resolve([
-          ...blits,
-          ...blits,
-          ...blits,
-          ...blits,
-          ...blits,
-          ...blits,
-          ...blits,
-          ...blits,
-          ...blits,
-          ...blits,
-        ]);
+        resolve(blits);
       });
     },
   });
@@ -72,9 +61,11 @@ export default function Blitmaps({
   return (
     <div className={styles.root}>
       <h1>Your Blitmaps</h1>
-      <p>Choose a Blitmap to mint a Blitpop</p>
+      <p>
+        Minting is exclusive to Blitmap holders. Choose a Blitmap to mint a
+        deriviative.
+      </p>
       <div className={styles.blits}>
-        {loading && <p>Loading</p>}
         {data?.map(({ tokenId, svgData }) => (
           <img
             onClick={() => onSelect(tokenId)}

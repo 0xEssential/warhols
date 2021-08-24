@@ -29,7 +29,7 @@ contract Blitpops is Ownable, ERC165Storage, ERC721Enumerable {
     }
     mapping(uint256 => FilterMatrix) internal filterMap;
 
-    constructor(address blitmapAddress) payable ERC721("Blitmonroes", "BLITMON") {
+    constructor(address blitmapAddress) payable ERC721("Blitpop", "BLITPOP") {
         _registerInterface(_INTERFACE_ID_ERC2981);
         BLITMAP_ADDRESS = blitmapAddress;
         filters['og'] = '<svg>';
@@ -155,6 +155,10 @@ contract Blitpops is Ownable, ERC165Storage, ERC721Enumerable {
         royaltyAmount = (value * ROYALTY_AMOUNT) / 100;
 
         return (owner(), royaltyAmount);
+    }
+
+    function withdraw() public onlyOwner {
+        payable(msg.sender).transfer(address(this).balance);
     }
 
     function supportsInterface(bytes4 interfaceId) public view override(ERC165Storage, ERC721Enumerable) returns (bool) {
