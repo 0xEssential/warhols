@@ -18,6 +18,11 @@
   justify-content: center;
   background: var(--pink);
   border-radius: 16px;
+  flex-grow: 1;
+  box-shadow: 12px 12px 0px var(--blue);
+  height: 200px;
+  width: 320px;
+  margin: 0 auto;
 }
 
 .root > img {

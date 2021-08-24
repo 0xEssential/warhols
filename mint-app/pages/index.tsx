@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import Blitmaps from '../components/Blitmaps';
 import Blitpops from '../components/Blitpops';
 import Mint from '../components/Mint';
+import { Web3Context } from '../contexts/web3Context';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
+  const { address } = useContext(Web3Context);
   const [blitmapId, setBlitmapId] = useState<string>('46');
   return (
     <div className={styles.container}>
@@ -19,7 +21,7 @@ export default function Home() {
             <Blitmaps onSelect={setBlitmapId} />
             <Blitpops onSelect={setBlitmapId} />
           </div>
-          <Mint blitmapId={blitmapId} />
+          {address && <Mint blitmapId={blitmapId} />}
         </div>
       </div>
       <div className={styles.footer}>

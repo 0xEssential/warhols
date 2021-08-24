@@ -19,6 +19,7 @@ contract Blitpops is Ownable, ERC165Storage, ERC721Enumerable {
     uint256 public constant ROYALTY_AMOUNT = 10;
     bytes4 private constant _INTERFACE_ID_ERC2981 = 0xc155531d;
     address public BLITMAP_ADDRESS;
+    uint256 public ownerSaleEnd;
     mapping(string => string) internal filters;
     string[] internal filterNames;
 
@@ -39,6 +40,7 @@ contract Blitpops is Ownable, ERC165Storage, ERC721Enumerable {
         filters['brillo'] = '<filter id="brillo"><feColorMatrix type="matrix" values="0 1.0 0 0 0 0 1.0 0 0 0 0 0.6 1 0 0 0 0 0 1 0 "/></filter><svg filter="url(#brillo)">';
         filters['b&w'] = '<filter id="bw"><feColorMatrix type="matrix" values="0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 1 0 "/></filter><svg filter="url(#bw)">';
         filterNames = ['og', 'campbells', 'electric-chair', 'marilyn', 'brillo', 'b&w'];
+        ownerSaleEnd = block.timestamp + 7 days;
     }
 
     function addFilter(string memory name, string memory filter) public onlyOwner {
@@ -59,8 +61,14 @@ contract Blitpops is Ownable, ERC165Storage, ERC721Enumerable {
         string memory filter1,
         string memory filter2,
         string memory filter3) public payable {
-        // require(msg.value == MINT_PRICE, "WB:oM:421");
-        // require(msg.sender == IBlitmap(BLITMAP_ADDRESS).ownerOf(tokenId), "WB:oM:421");
+        if (block.timestamp <= ownerSaleEnd){
+            require(msg.value == MINT_PRICE, "Bp:oM:402");
+            require(msg.sender == IBlitmap(BLITMAP_ADDRESS).ownerOf(tokenId), "Bp:oM:403");
+        }
+
+        if (block.timestamp > ownerSaleEnd) {
+            require(msg.sender == owner(), "Bp:oM:403");
+        }
 
         filterMap[tokenId] = FilterMatrix({
             filter1: filter1,
@@ -77,7 +85,7 @@ contract Blitpops is Ownable, ERC165Storage, ERC721Enumerable {
         string memory filter2,
         string memory filter3
     ) public {
-        require(msg.sender == ownerOf(tokenId), "MB:uF:409");
+        require(msg.sender == ownerOf(tokenId), "Bp:uF:403");
         filterMap[tokenId] = FilterMatrix({
             filter1: filter1,
             filter2: filter2,
@@ -88,7 +96,7 @@ contract Blitpops is Ownable, ERC165Storage, ERC721Enumerable {
     /* solhint-disable quotes */
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
-        require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
+        require(_exists(tokenId), "Bp:tU:404");
 
         FilterMatrix memory tokenFilters = filterMap[tokenId];
         return

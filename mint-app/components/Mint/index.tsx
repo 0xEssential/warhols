@@ -124,6 +124,14 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
     );
   }
 
+  if (!address) {
+    return (
+      <div className={styles.root}>
+        <h1>Blitpop Minter</h1>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.root}>
       <h1>Blitpop Minter</h1>

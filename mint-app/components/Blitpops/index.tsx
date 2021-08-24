@@ -36,7 +36,6 @@ export default function Blitpops({
         for (let index = 0; index < count; index++) {
           const token = await contract.tokenOfOwnerByIndex(address, index);
           const tokenData = await contract.tokenURI(token);
-          console.warn(tokenData);
           const json = atob(tokenData.substring(29));
           blits.push({ tokenID: token.toString(), ...JSON.parse(json) });
         }
@@ -48,18 +47,7 @@ export default function Blitpops({
   });
 
   if (!address) {
-    return (
-      <div className={styles.wallet}>
-        <Button
-          onClick={async () => {
-            await onboard?.walletSelect();
-            await onboard.walletCheck();
-          }}
-        >
-          Connect Wallet
-        </Button>
-      </div>
-    );
+    return null;
   }
 
   return (
