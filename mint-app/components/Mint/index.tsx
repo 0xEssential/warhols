@@ -16,9 +16,9 @@ import styles from './styles.module.css';
 const BlitpopContract = new Contract(contractAddress, abi);
 
 const initialState = {
-  filter1: 'campbells',
-  filter2: 'marilyn',
-  filter3: 'electric-chair',
+  filter1: 'og',
+  filter2: 'og',
+  filter3: 'og',
 };
 
 export default function Mint({ blitmapId }: { blitmapId: string }) {
