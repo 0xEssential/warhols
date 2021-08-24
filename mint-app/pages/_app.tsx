@@ -2,7 +2,6 @@ import '../styles/globals.css';
 
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { Provider } from 'next-auth/client';
 import React from 'react';
 
 import Web3ContextProvider from '../contexts/web3Context';
@@ -13,7 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const Layout = (Component as any).Layout || DefaultLayout;
 
   return (
-    <Provider>
+    <>
       <Head>
         <title>BlitPop</title>
         <meta httpEquiv="content-language" content="en" />
@@ -43,7 +42,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </Layout>
       </Web3ContextProvider>
-    </Provider>
+    </>
   );
 }
 export default MyApp;

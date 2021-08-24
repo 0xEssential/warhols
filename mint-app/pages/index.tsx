@@ -8,7 +8,7 @@ import styles from '../styles/Home.module.css';
 
 export default function Home() {
   const { address } = useContext(Web3Context);
-  const [blitmapId, setBlitmapId] = useState<string>('46');
+  const [blitmapId, setBlitmapId] = useState<string>();
   return (
     <div className={styles.container}>
       <div className={styles.headline}>
