@@ -17,7 +17,7 @@ export default function Blitpops({
 }: {
   onSelect: (id: string) => void;
 }) {
-  const [loading, setLoading] = useState(false);
+  const [_loading, setLoading] = useState(false);
   const { address, onboard, provider } = useContext(Web3Context);
   console.warn(address, 'ADDRESS');
 

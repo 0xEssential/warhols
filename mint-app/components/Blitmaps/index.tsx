@@ -17,7 +17,7 @@ export default function Blitmaps({
 }: {
   onSelect: (id: string) => void;
 }) {
-  const [loading, setLoading] = useState(false);
+  const [_loading, setLoading] = useState(false);
   const { address, onboard, provider } = useContext(Web3Context);
 
   const { data } = useSWR(address ? 'owned' : null, {
