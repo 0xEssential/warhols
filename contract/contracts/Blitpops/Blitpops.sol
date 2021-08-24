@@ -5,16 +5,25 @@ pragma solidity >=0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/introspection/ERC165Storage.sol";
-
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 import {IBlitmap} from "../Interfaces/IBlitmap.sol";
 import {Base64} from "../Base64.sol";
 import {strings} from "../StringUtils.sol";
 
 
-contract Blitpops is Ownable, ERC165Storage, ERC721Enumerable {
+contract Blitpops is ERC721Enumerable, Ownable, ERC165Storage {
     using strings for *;
+    using Strings for uint256;
 
+    struct FilterMatrix {
+        uint256 revisions;
+        string filter1;
+        string filter2;
+        string filter3;
+    }
+
+    mapping(uint256 => FilterMatrix) internal filterMap;
     uint256 public constant MINT_PRICE = 0.02 ether;
     uint256 public constant ROYALTY_AMOUNT = 10;
     bytes4 private constant _INTERFACE_ID_ERC2981 = 0xc155531d;
@@ -23,12 +32,7 @@ contract Blitpops is Ownable, ERC165Storage, ERC721Enumerable {
     mapping(string => string) internal filters;
     string[] internal filterNames;
 
-    struct FilterMatrix {
-        string filter1;
-        string filter2;
-        string filter3;
-    }
-    mapping(uint256 => FilterMatrix) internal filterMap;
+
 
     constructor(address blitmapAddress) payable ERC721("Blitpop", "BLITPOP") {
         _registerInterface(_INTERFACE_ID_ERC2981);
@@ -71,12 +75,13 @@ contract Blitpops is Ownable, ERC165Storage, ERC721Enumerable {
         // }
 
         filterMap[tokenId] = FilterMatrix({
+            revisions: 0,
             filter1: filter1,
             filter2: filter2,
             filter3: filter3
         });
 
-        _mint(msg.sender, tokenId);
+        _safeMint(msg.sender, tokenId);
     }
 
     function updateFilters(
@@ -87,6 +92,7 @@ contract Blitpops is Ownable, ERC165Storage, ERC721Enumerable {
     ) public {
         require(msg.sender == ownerOf(tokenId), "Bp:uF:403");
         filterMap[tokenId] = FilterMatrix({
+            revisions: filterMap[tokenId].revisions + 1,
             filter1: filter1,
             filter2: filter2,
             filter3: filter3
@@ -108,15 +114,29 @@ contract Blitpops is Ownable, ERC165Storage, ERC721Enumerable {
                             abi.encodePacked(
                                 '{"name":"Blitpop ',
                                 IBlitmap(BLITMAP_ADDRESS).tokenNameOf(tokenId),
-                                '", "description":"Blitpops are onchain Blitmap derivatives. To construct the artwork, the original Blitmap with corresponding token ID is fetched, collaged and filtered to return a modified onchain SVG.',
-                                '", "image": "',
+                                '", "description":"Blitpops are onchain Blitmap derivatives. To construct the artwork, the original Blitmap with corresponding token ID is fetched, collaged and filtered to return a modified onchain SVG.", "image": "',
                                 svgBase64Data(tokenId, tokenFilters.filter1, tokenFilters.filter2, tokenFilters.filter3),
-                                '"}'
+                                '", ',
+                                tokenProperties(tokenFilters),
+                                '"}}'
                             )
                         )
                     )
                 )
             );
+    }
+
+    function tokenProperties(FilterMatrix memory tokenFilters) internal view returns (bytes memory) {
+        return abi.encodePacked(
+            '"properties": { "revisions": "',
+            tokenFilters.revisions.toString(),
+            '", "Top Right": "',
+            tokenFilters.filter1,
+            '", "Bottom Left": "',
+            tokenFilters.filter2,
+            '", "Bottom Right": "',
+            tokenFilters.filter3
+        );
     }
 
     function svgBase64Data(
@@ -174,6 +194,6 @@ contract Blitpops is Ownable, ERC165Storage, ERC721Enumerable {
     }
 
     function supportsInterface(bytes4 interfaceId) public view override(ERC165Storage, ERC721Enumerable) returns (bool) {
-        return ERC165Storage.supportsInterface(interfaceId);
+        return ERC721Enumerable.supportsInterface(interfaceId) || ERC165Storage.supportsInterface(interfaceId);
     }
 }

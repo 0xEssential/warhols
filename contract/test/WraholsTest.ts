@@ -27,9 +27,9 @@ describe.only('Warhols', function () {
       const owner = await setupUser(_owner.address, {Blitmap, Warhols});
 
 
-      const mint = await owner.Warhols.ownerMint(1, { value: parseEther('0.02')});
+      // const mint = await owner.Warhols.ownerMint(1, { value: parseEther('0.02')});
 
-      await mint.wait();
+      // await mint.wait();
 
       return {  owner, Warhols };
     });
@@ -46,8 +46,8 @@ describe.only('Warhols', function () {
           Warhols,
         } = fixtures;
 
-        const metadata = await Warhols.tokenURI(1);
-        console.warn(metadata);
+        // const metadata = await Warhols.tokenURI(1);
+        // console.warn(metadata);
         // await open(metadata, { app: { name: 'google chrome'}});
       });
     });
