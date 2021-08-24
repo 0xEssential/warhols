@@ -26,6 +26,9 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
   const [svg, setSvg] = useState<string>();
 
   const reducer = (state, action) => {
+    if (action.attribute === '*') {
+      return action.value;
+    }
     return {
       ...state,
       [action.attribute]: action.value,
@@ -71,11 +74,18 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
           const json = parseDataUri(uri);
           const metadata = JSON.parse(json.data);
           setSvg(metadata.image);
+
+          const { filter1, filter2, filter3 } = await connected.filtersFor(
+            BigNumber.from(blitmapId),
+          );
+          console.warn(filters);
+          dispatch({ attribute: '*', value: { filter1, filter2, filter3 } });
         }
 
         resolve(owner?.toLowerCase());
       });
     },
+    revalidateOnFocus: false,
   });
 
   const options = filters?.map((f, index) => (

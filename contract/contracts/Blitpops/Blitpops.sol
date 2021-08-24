@@ -50,6 +50,10 @@ contract Blitpops is Ownable, ERC165Storage, ERC721Enumerable {
         return filterNames;
     }
 
+    function filtersFor(uint256 tokenId) public view returns (FilterMatrix memory) {
+        return filterMap[tokenId];
+    }
+
     function ownerMint(
         uint256 tokenId,
         string memory filter1,
