@@ -59,8 +59,8 @@ export default function Blitmaps({
       <div className={styles.root}>
         <Button
           onClick={async () => {
-            await onboard.checkWallet();
-            await onboard.connect();
+            await onboard?.walletSelect();
+            await onboard.walletCheck();
           }}
         >
           Connect Wallet
