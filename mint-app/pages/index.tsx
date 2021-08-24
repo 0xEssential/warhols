@@ -47,6 +47,19 @@ export default function Home() {
           </a>
         </p>
       </div>
+      <div className={styles.footer}>
+        <p>
+          a{' '}
+          <a
+            href="https://discord.gg/4K5EwWgCMn"
+            target="_blank"
+            rel="noreferrer"
+          >
+            0xEssential
+          </a>{' '}
+          joint
+        </p>
+      </div>
     </div>
   );
 }

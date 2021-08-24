@@ -7,7 +7,6 @@ import {
   address as contractAddress,
 } from '../../../contract/deployments/rinkeby/Blitpops.json';
 import { Web3Context } from '../../contexts/web3Context';
-import Button from '../Button';
 import styles from './styles.module.css';
 
 const BlitpopContract = new Contract(contractAddress, abi);
@@ -18,7 +17,7 @@ export default function Blitpops({
   onSelect: (id: string) => void;
 }) {
   const [_loading, setLoading] = useState(false);
-  const { address, onboard, provider } = useContext(Web3Context);
+  const { address, provider } = useContext(Web3Context);
   console.warn(address, 'ADDRESS');
 
   const { data } = useSWR(address ? 'ownedPops' : null, {
