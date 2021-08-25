@@ -1,7 +1,7 @@
 import { Contract } from '@ethersproject/contracts';
 import { useRouter } from 'next/dist/client/router';
 import parseDataUri from 'parse-data-uri';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import useSWR from 'swr';
 
 import {
@@ -24,6 +24,10 @@ export default function Home() {
 
       return new Promise<Record<string, string>>(async (resolve, _reject) => {
         const contract = BlitpopContract.connect(provider);
+        const gas = await provider.estimateGas(
+          contract.tokenURI(route.query.id),
+        );
+        console.warn(gas.toString());
         const tokenData = await contract.tokenURI(route.query.id);
         const json = parseDataUri(tokenData);
 
