@@ -8,7 +8,7 @@ import useSWR from 'swr';
 import {
   abi,
   address as contractAddress,
-} from '../../../contract/deployments/rinkeby/Blitpops.json';
+} from '../../../contract/deployments/mainnet/Blitpops.json';
 import { Web3Context } from '../../contexts/web3Context';
 import Button from '../Button';
 import styles from './styles.module.css';
@@ -22,6 +22,7 @@ const initialState = {
 };
 
 export default function Mint({ blitmapId }: { blitmapId: string }) {
+  console.warn(blitmapId);
   const { address, provider } = useContext(Web3Context);
   const [svg, setSvg] = useState<string>();
 
@@ -39,7 +40,11 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
 
   const fetchBlitpopSvg = async (id, _filterState, provider) => {
     const Blitpop = BlitpopContract.connect(provider);
-    const svg = await Blitpop.svgBase64Data(id, ...Object.values(_filterState));
+    console.warn(BigNumber.from(id), ...Object.values(_filterState));
+    const svg = await Blitpop.svgBase64Data(
+      BigNumber.from(id),
+      ...Object.values(_filterState),
+    );
     setSvg(svg);
   };
 
@@ -47,11 +52,7 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
     fetcher: async () => {
       if (!provider || !blitmapId) return;
       return new Promise<any[]>(async (resolve, _reject) => {
-        const jsonProvider = new InfuraProvider(
-          'rinkeby',
-          process.env.INFURA_API_KEY,
-        );
-        const connected = BlitpopContract.connect(jsonProvider);
+        const connected = BlitpopContract.connect(provider);
         const filters = await connected.listFilters();
         resolve(filters);
       });
@@ -97,7 +98,7 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
   useEffect(() => {
     if (!provider || !blitmapId) return;
     fetchBlitpopSvg(blitmapId, filterState, provider);
-  }, [filterState, provider]);
+  }, [filterState, provider, blitmapId]);
 
   const mint = async () => {
     const connected = BlitpopContract.connect(provider.getSigner());

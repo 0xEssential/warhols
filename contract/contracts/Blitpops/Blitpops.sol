@@ -29,10 +29,9 @@ contract Blitpops is ERC721Enumerable, Ownable, ERC165Storage {
     bytes4 private constant _INTERFACE_ID_ERC2981 = 0xc155531d;
     address public BLITMAP_ADDRESS;
     uint256 public ownerSaleEnd;
+    bool public editingAllowed;
     mapping(string => string) internal filters;
     string[] internal filterNames;
-
-
 
     constructor(address blitmapAddress) payable ERC721("Blitpop", "BLITPOP") {
         _registerInterface(_INTERFACE_ID_ERC2981);
@@ -52,6 +51,10 @@ contract Blitpops is ERC721Enumerable, Ownable, ERC165Storage {
         filters[name] = filter;
     }
 
+    function setEditingAllowed(bool allowed) public onlyOwner {
+        editingAllowed = allowed;
+    }
+
     function listFilters() public view returns(string[] memory) {
         return filterNames;
     }
@@ -65,14 +68,14 @@ contract Blitpops is ERC721Enumerable, Ownable, ERC165Storage {
         string memory filter1,
         string memory filter2,
         string memory filter3) public payable {
-        // if (block.timestamp <= ownerSaleEnd){
-        //     require(msg.value == MINT_PRICE, "Bp:oM:402");
-        //     require(msg.sender == IBlitmap(BLITMAP_ADDRESS).ownerOf(tokenId), "Bp:oM:403");
-        // }
+        if (block.timestamp <= ownerSaleEnd){
+            require(msg.value == MINT_PRICE, "Bp:oM:402");
+            require(msg.sender == IBlitmap(BLITMAP_ADDRESS).ownerOf(tokenId), "Bp:oM:403");
+        }
 
-        // if (block.timestamp > ownerSaleEnd) {
-        //     require(msg.sender == owner(), "Bp:oM:403");
-        // }
+        if (block.timestamp > ownerSaleEnd) {
+            require(msg.sender == owner(), "Bp:oM:403");
+        }
 
         filterMap[tokenId] = FilterMatrix({
             revisions: 0,
@@ -90,6 +93,7 @@ contract Blitpops is ERC721Enumerable, Ownable, ERC165Storage {
         string memory filter2,
         string memory filter3
     ) public {
+        require(editingAllowed, "Bp:uF:400");
         require(msg.sender == ownerOf(tokenId), "Bp:uF:403");
         filterMap[tokenId] = FilterMatrix({
             revisions: filterMap[tokenId].revisions + 1,

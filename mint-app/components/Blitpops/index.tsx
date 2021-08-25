@@ -5,7 +5,7 @@ import useSWR from 'swr';
 import {
   abi,
   address as contractAddress,
-} from '../../../contract/deployments/rinkeby/Blitpops.json';
+} from '../../../contract/deployments/mainnet/Blitpops.json';
 import { Web3Context } from '../../contexts/web3Context';
 import styles from './styles.module.css';
 

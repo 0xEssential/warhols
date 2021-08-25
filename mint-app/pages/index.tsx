@@ -27,14 +27,18 @@ export default function Home() {
       <div className={styles.footer}>
         <p>
           <a
-            href="https://etherscan.io/address/fair-drop"
+            href="https://etherscan.io/address/0x036bc4Bc220B2d1b364D7f1bA2F31732B72322A6"
             target="_blank"
             rel="noreferrer"
           >
             Etherscan
           </a>{' '}
           •{' '}
-          <a href="https://opensea.io/blitpop" target="_blank" rel="noreferrer">
+          <a
+            href="https://opensea.io/collection/blitpop"
+            target="_blank"
+            rel="noreferrer"
+          >
             OpenSea
           </a>{' '}
           •{' '}

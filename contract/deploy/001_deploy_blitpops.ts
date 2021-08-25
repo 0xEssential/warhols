@@ -9,7 +9,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   await deploy('Blitpops', {
     from: deployer,
-    args: ['0xf6A56f5B9cff7f84320C85C71Cac94092d3CD424'],
+    args: ['0x8d04a8c79cEB0889Bdd12acdF3Fa9D207eD3Ff63'],
     log: true,
   });
 };

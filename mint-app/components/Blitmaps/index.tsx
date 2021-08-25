@@ -35,7 +35,7 @@ export default function Blitmaps({
           const token = await contract.tokenOfOwnerByIndex(address, index);
           const svgData = await contract.tokenSvgDataOf(token);
 
-          blits.push({ tokenID: token.toString(), svgData });
+          blits.push({ tokenId: token.toString(), svgData });
         }
         setLoading(false);
         resolve(blits);
@@ -68,7 +68,10 @@ export default function Blitmaps({
       <div className={styles.blits}>
         {data?.map(({ tokenId, svgData }) => (
           <img
-            onClick={() => onSelect(tokenId)}
+            onClick={() => {
+              console.log(tokenId);
+              onSelect(tokenId);
+            }}
             key={tokenId}
             src={`data:image/svg+xml;base64,${btoa(svgData)}`}
           />
