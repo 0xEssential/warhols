@@ -52,7 +52,6 @@ export default function Blitpops({
   return (
     <div className={styles.root}>
       <h1>Your Blitpops</h1>
-      <p>Choose a Blitpop to update filters</p>
       <div className={styles.blits}>
         {data?.map(({ tokenId, image }, index) => (
           <img

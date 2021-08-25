@@ -174,13 +174,7 @@ export default function Mint({
           </select>
         </label>
       </form>
-      {owner ? (
-        blitpopId && (
-          <Button style={{ width: '100%' }} onClick={updateFilters}>
-            Update Filters
-          </Button>
-        )
-      ) : (
+      {!owner && (
         <Button style={{ width: '100%' }} onClick={mint}>
           Mint for 0.02 ETH
         </Button>
