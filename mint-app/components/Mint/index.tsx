@@ -111,10 +111,10 @@ export default function Mint({
     });
   };
 
-  const updateFilters = async () => {
-    const connected = BlitpopContract.connect(provider.getSigner());
-    connected.updateFilters(BigNumber.from(id), ...Object.values(filterState));
-  };
+  // const updateFilters = async () => {
+  //   const connected = BlitpopContract.connect(provider.getSigner());
+  //   connected.updateFilters(BigNumber.from(id), ...Object.values(filterState));
+  // };
 
   if (!id) {
     return (
