@@ -1,5 +1,4 @@
 import { Contract } from '@ethersproject/contracts';
-import { InfuraProvider } from '@ethersproject/providers';
 import { BigNumber } from 'ethers';
 import parseDataUri from 'parse-data-uri';
 import React, { useContext, useEffect, useReducer, useState } from 'react';
