@@ -137,43 +137,45 @@ export default function Mint({
     <div className={styles.root}>
       <h1>Blitpop Minter</h1>
       {svg && <img src={svg} />}
-      <form className={styles.form}>
-        <label>
-          TOP RIGHT
-          <select
-            value={filterState.filter1}
-            onChange={(e) =>
-              dispatch({ attribute: 'filter1', value: e.target.value })
-            }
-          >
-            {options}
-          </select>
-        </label>
+      {!blitpopId && (
+        <form className={styles.form}>
+          <label>
+            TOP RIGHT
+            <select
+              value={filterState.filter1}
+              onChange={(e) =>
+                dispatch({ attribute: 'filter1', value: e.target.value })
+              }
+            >
+              {options}
+            </select>
+          </label>
 
-        <label>
-          BOTTOM LEFT
-          <select
-            value={filterState.filter2}
-            onChange={(e) =>
-              dispatch({ attribute: 'filter2', value: e.target.value })
-            }
-          >
-            {options}
-          </select>
-        </label>
+          <label>
+            BOTTOM LEFT
+            <select
+              value={filterState.filter2}
+              onChange={(e) =>
+                dispatch({ attribute: 'filter2', value: e.target.value })
+              }
+            >
+              {options}
+            </select>
+          </label>
 
-        <label>
-          BOTTOM RIGHT
-          <select
-            value={filterState.filter3}
-            onChange={(e) =>
-              dispatch({ attribute: 'filter3', value: e.target.value })
-            }
-          >
-            {options}
-          </select>
-        </label>
-      </form>
+          <label>
+            BOTTOM RIGHT
+            <select
+              value={filterState.filter3}
+              onChange={(e) =>
+                dispatch({ attribute: 'filter3', value: e.target.value })
+              }
+            >
+              {options}
+            </select>
+          </label>
+        </form>
+      )}
       {!owner && (
         <Button style={{ width: '100%' }} onClick={mint}>
           Mint for 0.02 ETH

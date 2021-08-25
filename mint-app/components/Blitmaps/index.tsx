@@ -3,6 +3,10 @@ import { MintableNonFungibleToken } from 'non-fungible-token-abi';
 import React, { useContext, useState } from 'react';
 import useSWR from 'swr';
 
+import {
+  abi,
+  address as contractAddress,
+} from '../../../contract/deployments/mainnet/Blitpops.json';
 import { Web3Context } from '../../contexts/web3Context';
 import Button from '../Button';
 import styles from './styles.module.css';
@@ -11,6 +15,8 @@ const BlitmapContract = new Contract(process.env.BLITMAP_CONTRACT_ADDRESS, [
   ...MintableNonFungibleToken,
   'function tokenSvgDataOf(uint256 tokenId) public view returns (string memory)',
 ]);
+
+const BlitpopContract = new Contract(contractAddress, abi);
 
 export default function Blitmaps({
   onSelect,
@@ -35,7 +41,12 @@ export default function Blitmaps({
           const token = await contract.tokenOfOwnerByIndex(address, index);
           const svgData = await contract.tokenSvgDataOf(token);
 
-          blits.push({ tokenId: token.toString(), svgData });
+          const connected = BlitpopContract.connect(provider);
+          const blitpopOwner = await connected.ownerOf(token).catch(() => {
+            return false;
+          });
+
+          !blitpopOwner && blits.push({ tokenId: token.toString(), svgData });
         }
         setLoading(false);
         resolve(blits);
