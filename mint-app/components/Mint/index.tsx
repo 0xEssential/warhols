@@ -1,5 +1,5 @@
 import { Contract } from '@ethersproject/contracts';
-import { BigNumber } from 'ethers';
+import { BigNumber, utils } from 'ethers';
 import parseDataUri from 'parse-data-uri';
 import React, { useContext, useEffect, useReducer, useState } from 'react';
 import useSWR from 'swr';
@@ -104,6 +104,7 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
     connected.ownerMint(
       BigNumber.from(blitmapId),
       ...Object.values(filterState),
+      { value: utils.parseEther('0.02') },
     );
   };
 
