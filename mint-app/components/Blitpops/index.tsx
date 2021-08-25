@@ -1,4 +1,5 @@
 import { Contract } from '@ethersproject/contracts';
+import parseDataUri from 'parse-data-uri';
 import React, { useContext, useState } from 'react';
 import useSWR from 'swr';
 
@@ -18,7 +19,6 @@ export default function Blitpops({
 }) {
   const [_loading, setLoading] = useState(false);
   const { address, provider } = useContext(Web3Context);
-  console.warn(address, 'ADDRESS');
 
   const { data } = useSWR(address ? 'ownedPops' : null, {
     fetcher: async () => {
@@ -35,8 +35,8 @@ export default function Blitpops({
         for (let index = 0; index < count; index++) {
           const token = await contract.tokenOfOwnerByIndex(address, index);
           const tokenData = await contract.tokenURI(token);
-          const json = atob(tokenData.substring(29));
-          blits.push({ tokenID: token.toString(), ...JSON.parse(json) });
+          const json = parseDataUri(tokenData);
+          blits.push({ tokenID: token.toString(), ...JSON.parse(json.data) });
         }
 
         setLoading(false);
@@ -54,8 +54,8 @@ export default function Blitpops({
       <h1>Your Blitpops</h1>
       <p>Choose a Blitpop to update filters</p>
       <div className={styles.blits}>
-        {data?.map(({ tokenId, image }) => (
-          <img onClick={() => onSelect(tokenId)} key={tokenId} src={image} />
+        {data?.map(({ tokenId, image }, index) => (
+          <img onClick={() => onSelect(tokenId)} key={index} src={image} />
         ))}
       </div>
     </div>

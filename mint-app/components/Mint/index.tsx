@@ -21,7 +21,6 @@ const initialState = {
 };
 
 export default function Mint({ blitmapId }: { blitmapId: string }) {
-  console.warn(blitmapId);
   const { address, provider } = useContext(Web3Context);
   const [svg, setSvg] = useState<string>();
 
@@ -39,7 +38,7 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
 
   const fetchBlitpopSvg = async (id, _filterState, provider) => {
     const Blitpop = BlitpopContract.connect(provider);
-    console.warn(BigNumber.from(id), ...Object.values(_filterState));
+
     const svg = await Blitpop.svgBase64Data(
       BigNumber.from(id),
       ...Object.values(_filterState),
@@ -52,7 +51,7 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
       return new Promise<any[]>(async (resolve, _reject) => {
         const connected = BlitpopContract.connect(provider);
         const filters = await connected.listFilters();
-        console.warn(filters);
+
         resolve(filters);
       });
     },
@@ -78,7 +77,7 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
           const { filter1, filter2, filter3 } = await connected.filtersFor(
             BigNumber.from(blitmapId),
           );
-          console.warn(filters);
+
           dispatch({ attribute: '*', value: { filter1, filter2, filter3 } });
         }
 
