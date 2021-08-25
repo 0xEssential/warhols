@@ -11,7 +11,6 @@ export function initOnboard(subscriptions) {
     dappId,
     hideBranding: true,
     networkId,
-    networkName: 'mainnet',
     apiUrl,
     darkMode: true,
     subscriptions,
@@ -62,7 +61,6 @@ export function initOnboard(subscriptions) {
       { checkName: 'derivationPath' },
       { checkName: 'connect' },
       { checkName: 'accounts' },
-      { checkName: 'network' },
     ],
   });
 }
