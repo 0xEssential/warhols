@@ -47,12 +47,12 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
     setSvg(svg);
   };
 
-  const { data: filters } = useSWR(provider ? 'filters' : null, {
+  const { data: filters } = useSWR(provider && blitmapId ? 'filters' : null, {
     fetcher: async () => {
-      if (!provider || !blitmapId) return;
       return new Promise<any[]>(async (resolve, _reject) => {
         const connected = BlitpopContract.connect(provider);
         const filters = await connected.listFilters();
+        console.warn(filters);
         resolve(filters);
       });
     },
@@ -124,7 +124,7 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
     );
   }
 
-  if (!address) {
+  if (!address || !filters) {
     return (
       <div className={styles.root}>
         <h1>Blitpop Minter</h1>
