@@ -20,10 +20,16 @@ const initialState = {
   filter3: 'og',
 };
 
-export default function Mint({ blitmapId }: { blitmapId: string }) {
+export default function Mint({
+  blitmapId,
+  blitpopId,
+}: {
+  blitmapId: string;
+  blitpopId: string;
+}) {
   const { address, provider } = useContext(Web3Context);
   const [svg, setSvg] = useState<string>();
-
+  console.warn(blitpopId);
   const reducer = (state, action) => {
     if (action.attribute === '*') {
       return action.value;
@@ -34,19 +40,21 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
     };
   };
 
+  const id = blitpopId || blitmapId;
+
   const [filterState, dispatch] = useReducer(reducer, initialState);
 
-  const fetchBlitpopSvg = async (id, _filterState, provider) => {
+  const fetchBlitpopSvg = async (_id, _filterState, provider) => {
     const Blitpop = BlitpopContract.connect(provider);
 
     const svg = await Blitpop.svgBase64Data(
-      BigNumber.from(id),
+      BigNumber.from(_id),
       ...Object.values(_filterState),
     );
     setSvg(svg);
   };
 
-  const { data: filters } = useSWR(provider && blitmapId ? 'filters' : null, {
+  const { data: filters } = useSWR(provider && id ? 'filters' : null, {
     fetcher: async () => {
       return new Promise<any[]>(async (resolve, _reject) => {
         const connected = BlitpopContract.connect(provider);
@@ -57,25 +65,23 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
     },
   });
 
-  const { data: owner } = useSWR(provider ? 'owner' : null, {
+  const { data: owner } = useSWR(provider && id ? 'owner' : null, {
     fetcher: async () => {
-      if (!provider || !blitmapId) return;
+      if (!provider || !id) return;
       return new Promise<string>(async (resolve, _reject) => {
         const connected = BlitpopContract.connect(provider);
-        const owner = await connected
-          .ownerOf(BigNumber.from(blitmapId))
-          .catch(() => {
-            return _reject();
-          });
+        const owner = await connected.ownerOf(BigNumber.from(id)).catch(() => {
+          return _reject();
+        });
 
         if (owner) {
-          const uri = await connected.tokenURI(BigNumber.from(blitmapId));
+          const uri = await connected.tokenURI(BigNumber.from(id));
           const json = parseDataUri(uri);
           const metadata = JSON.parse(json.data);
           setSvg(metadata.image);
 
           const { filter1, filter2, filter3 } = await connected.filtersFor(
-            BigNumber.from(blitmapId),
+            BigNumber.from(id),
           );
 
           dispatch({ attribute: '*', value: { filter1, filter2, filter3 } });
@@ -94,28 +100,23 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
   ));
 
   useEffect(() => {
-    if (!provider || !blitmapId) return;
-    fetchBlitpopSvg(blitmapId, filterState, provider);
+    if (!provider || !id) return;
+    fetchBlitpopSvg(id, filterState, provider);
   }, [filterState, provider, blitmapId]);
 
   const mint = async () => {
     const connected = BlitpopContract.connect(provider.getSigner());
-    connected.ownerMint(
-      BigNumber.from(blitmapId),
-      ...Object.values(filterState),
-      { value: utils.parseEther('0.02') },
-    );
+    connected.ownerMint(BigNumber.from(id), ...Object.values(filterState), {
+      value: utils.parseEther('0.02'),
+    });
   };
 
   const updateFilters = async () => {
     const connected = BlitpopContract.connect(provider.getSigner());
-    connected.updateFilters(
-      BigNumber.from(blitmapId),
-      ...Object.values(filterState),
-    );
+    connected.updateFilters(BigNumber.from(id), ...Object.values(filterState));
   };
 
-  if (!blitmapId) {
+  if (!id) {
     return (
       <div className={styles.root}>
         <h1>Blitpop Minter</h1>
@@ -174,7 +175,7 @@ export default function Mint({ blitmapId }: { blitmapId: string }) {
         </label>
       </form>
       {owner ? (
-        owner === address && (
+        blitpopId && (
           <Button style={{ width: '100%' }} onClick={updateFilters}>
             Update Filters
           </Button>

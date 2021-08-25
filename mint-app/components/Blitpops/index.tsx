@@ -36,7 +36,7 @@ export default function Blitpops({
           const token = await contract.tokenOfOwnerByIndex(address, index);
           const tokenData = await contract.tokenURI(token);
           const json = parseDataUri(tokenData);
-          blits.push({ tokenID: token.toString(), ...JSON.parse(json.data) });
+          blits.push({ tokenId: token.toString(), ...JSON.parse(json.data) });
         }
 
         setLoading(false);
@@ -55,7 +55,14 @@ export default function Blitpops({
       <p>Choose a Blitpop to update filters</p>
       <div className={styles.blits}>
         {data?.map(({ tokenId, image }, index) => (
-          <img onClick={() => onSelect(tokenId)} key={index} src={image} />
+          <img
+            onClick={() => {
+              console.log(tokenId);
+              onSelect(tokenId);
+            }}
+            key={index}
+            src={image}
+          />
         ))}
       </div>
     </div>

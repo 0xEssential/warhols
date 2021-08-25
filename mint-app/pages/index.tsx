@@ -9,6 +9,8 @@ import styles from '../styles/Home.module.css';
 export default function Home() {
   const { address } = useContext(Web3Context);
   const [blitmapId, setBlitmapId] = useState<string>();
+  const [blitpopId, setBlitpopId] = useState<string>();
+
   return (
     <div className={styles.container}>
       <div className={styles.headline}>
@@ -19,9 +21,9 @@ export default function Home() {
         <div className={styles.mintRow}>
           <div className={styles.blitColumn}>
             <Blitmaps onSelect={setBlitmapId} />
-            <Blitpops onSelect={setBlitmapId} />
+            <Blitpops onSelect={setBlitpopId} />
           </div>
-          {address && <Mint blitmapId={blitmapId} />}
+          {address && <Mint blitmapId={blitmapId} blitpopId={blitpopId} />}
         </div>
       </div>
       <div className={styles.footer}>
