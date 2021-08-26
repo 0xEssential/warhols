@@ -37,6 +37,7 @@
 
 .blits > img {
   width: 100%;
+  min-width: 128px;
   height: auto;
   cursor: pointer;
 }

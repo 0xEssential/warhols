@@ -3,10 +3,10 @@ import { MintableNonFungibleToken } from 'non-fungible-token-abi';
 import React, { useContext, useState } from 'react';
 import useSWR from 'swr';
 
-// import {
-//   abi,
-//   address as contractAddress,
-// } from '../../../contract/deployments/mainnet/Blitpops.json';
+import {
+  abi,
+  address as contractAddress,
+} from '../../../contract/deployments/mainnet/Blitpops.json';
 import { Web3Context } from '../../contexts/web3Context';
 import Button from '../Button';
 import styles from './styles.module.css';
@@ -24,7 +24,7 @@ const ERC721BatcherContract = new Contract(
   ],
 );
 
-// const BlitpopContract = new Contract(contractAddress, abi);
+const BlitpopContract = new Contract(contractAddress, abi);
 
 export default function Blitmaps({
   onSelect,
@@ -40,7 +40,7 @@ export default function Blitmaps({
       return new Promise<any[]>(async (resolve, _reject) => {
         const batcher = ERC721BatcherContract.connect(provider);
         const blitmap = BlitmapContract.connect(provider);
-        // const blitpop = BlitpopContract.connect(provider);
+        const blitpop = BlitpopContract.connect(provider);
 
         const ids = await batcher.getIds(
           process.env.BLITMAP_CONTRACT_ADDRESS,
@@ -52,11 +52,11 @@ export default function Blitmaps({
         for (const id of ids) {
           const svgData = await blitmap.tokenSvgDataOf(id);
 
-          // const blitpopOwner = await blitpop.ownerOf(id).catch(() => {
-          //   return false;
-          // });
+          const blitpopOwner = await blitpop.ownerOf(id).catch(() => {
+            return false;
+          });
 
-          blits.push({ tokenId: id, svgData });
+          !blitpopOwner && blits.push({ tokenId: id, svgData });
         }
         setLoading(false);
         resolve(blits);
