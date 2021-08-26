@@ -60,9 +60,9 @@ export function initOnboard(subscriptions) {
       ],
     },
     walletCheck: [
-      // { checkName: 'derivationPath' },
-      // { checkName: 'connect' },
-      // { checkName: 'accounts' },
+      { checkName: 'derivationPath' },
+      { checkName: 'connect' },
+      { checkName: 'accounts' },
     ],
   });
 }
