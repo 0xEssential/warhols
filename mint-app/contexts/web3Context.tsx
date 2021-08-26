@@ -37,7 +37,7 @@ const Web3ContextProvider = ({ children }: any): ReactElement => {
         if (wallet.provider) {
           setWallet(wallet);
 
-          const provider = new Web3Provider(wallet.provider, 'mainnet');
+          const provider = new Web3Provider(wallet.provider);
 
           // provider.on('network', (newNetwork, oldNetwork) => {
           //   console.warn(newNetwork);
