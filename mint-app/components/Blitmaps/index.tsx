@@ -52,11 +52,11 @@ export default function Blitmaps({
         for (const id of ids) {
           const svgData = await blitmap.tokenSvgDataOf(id);
 
-          const blitpopOwner = await blitpop.ownerOf(id).catch(() => {
-            return false;
-          });
+          // const blitpopOwner = await blitpop.ownerOf(id).catch(() => {
+          //   return false;
+          // });
 
-          !blitpopOwner && blits.push({ tokenId: id, svgData });
+          blits.push({ tokenId: id, svgData });
         }
         setLoading(false);
         resolve(blits);

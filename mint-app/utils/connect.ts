@@ -20,7 +20,7 @@ export function initOnboard(subscriptions) {
         { walletName: 'metamask' },
         {
           walletName: 'trezor',
-          appUrl: 'https://arena.wrassling.com',
+          appUrl: 'https://bliptop.0xessential.com',
           rpcUrl,
         },
         {
@@ -31,7 +31,7 @@ export function initOnboard(subscriptions) {
           walletName: 'walletConnect',
           infuraKey: process.env.INFURA_KEY,
         },
-        { walletName: 'cobovault', appName: 'Wrassling', rpcUrl },
+        { walletName: 'cobovault', appName: 'Blitpop', rpcUrl },
         {
           walletName: 'lattice',
           appName: 'Onboard Demo',
