@@ -40,7 +40,7 @@ export default function Blitmaps({
       return new Promise<any[]>(async (resolve, _reject) => {
         const batcher = ERC721BatcherContract.connect(provider);
         const blitmap = BlitmapContract.connect(provider);
-        const blitpop = BlitpopContract.connect(provider);
+        // const blitpop = BlitpopContract.connect(provider);
 
         const ids = await batcher.getIds(
           process.env.BLITMAP_CONTRACT_ADDRESS,
