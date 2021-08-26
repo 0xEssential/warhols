@@ -70,7 +70,7 @@ const Web3ContextProvider = ({ children }: any): ReactElement => {
       window.localStorage.getItem('selectedWallet');
 
     if (previouslySelectedWallet && onboard) {
-      // onboard.walletSelect(previouslySelectedWallet);
+      onboard.walletSelect(previouslySelectedWallet);
     }
   }, [onboard]);
 
