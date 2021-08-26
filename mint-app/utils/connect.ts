@@ -11,6 +11,7 @@ export function initOnboard(subscriptions) {
     dappId,
     hideBranding: true,
     networkId,
+    networkName: 'mainnet',
     apiUrl,
     darkMode: true,
     subscriptions,
