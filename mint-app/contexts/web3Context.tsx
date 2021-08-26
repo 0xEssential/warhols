@@ -32,12 +32,15 @@ const Web3ContextProvider = ({ children }: any): ReactElement => {
   useEffect(() => {
     const onboard = initOnboard({
       address: setAddress,
-      network: setNetwork,
+      network: (network) => {
+        console.warn('SETTING NETWORK', network);
+        setNetwork(network);
+      },
       wallet: (wallet) => {
         if (wallet.provider) {
           setWallet(wallet);
 
-          const provider = new Web3Provider(wallet.provider);
+          const provider = new Web3Provider(wallet.provider, 1);
 
           // provider.on('network', (newNetwork, oldNetwork) => {
           //   console.warn(newNetwork);
