@@ -29,7 +29,7 @@ export default function Home() {
       <div className={styles.footer}>
         <p>
           <a
-            href="https://etherscan.io/address/0x036bc4Bc220B2d1b364D7f1bA2F31732B72322A6"
+            href="https://etherscan.io/address/0xF9BddDBa8011262382182CdFA7c92327afF15279"
             target="_blank"
             rel="noreferrer"
           >

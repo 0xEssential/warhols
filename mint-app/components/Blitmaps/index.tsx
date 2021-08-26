@@ -16,6 +16,14 @@ const BlitmapContract = new Contract(process.env.BLITMAP_CONTRACT_ADDRESS, [
   'function tokenSvgDataOf(uint256 tokenId) public view returns (string memory)',
 ]);
 
+const ERC721BatcherContract = new Contract(
+  process.env.BATCHER_CONTRACT_ADDRESS,
+  [
+    'function getIds(address erc721Address, address user) public view returns(uint256[] memory)',
+    'function getURIs(address erc721Address, address user) public view returns(string[] memory)',
+  ],
+);
+
 const BlitpopContract = new Contract(contractAddress, abi);
 
 export default function Blitmaps({
@@ -30,23 +38,25 @@ export default function Blitmaps({
     fetcher: async () => {
       setLoading(true);
       return new Promise<any[]>(async (resolve, _reject) => {
-        const contract = BlitmapContract.connect(provider);
-        const count = await contract.balanceOf(address).catch(() => {
-          return resolve([]);
-        });
+        const batcher = ERC721BatcherContract.connect(provider);
+        const blitmap = BlitmapContract.connect(provider);
+        const blitpop = BlitpopContract.connect(provider);
+
+        const ids = await batcher.getIds(
+          process.env.BLITMAP_CONTRACT_ADDRESS,
+          address,
+        );
 
         const blits: any[] = [];
 
-        for (let index = 0; index < count; index++) {
-          const token = await contract.tokenOfOwnerByIndex(address, index);
-          const svgData = await contract.tokenSvgDataOf(token);
+        for (const id of ids) {
+          const svgData = await blitmap.tokenSvgDataOf(id);
 
-          const connected = BlitpopContract.connect(provider);
-          const blitpopOwner = await connected.ownerOf(token).catch(() => {
+          const blitpopOwner = await blitpop.ownerOf(id).catch(() => {
             return false;
           });
 
-          !blitpopOwner && blits.push({ tokenId: token.toString(), svgData });
+          !blitpopOwner && blits.push({ tokenId: id, svgData });
         }
         setLoading(false);
         resolve(blits);

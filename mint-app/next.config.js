@@ -6,5 +6,6 @@ module.exports = {
     CHAIN_ID: process.env.CHAIN_ID,
     INFURA_KEY: process.env.INFURA_KEY,
     BLITMAP_CONTRACT_ADDRESS: process.env.BLITMAP_CONTRACT_ADDRESS,
+    BATCHER_CONTRACT_ADDRESS: process.env.BATCHER_CONTRACT_ADDRESS,
   },
 };
