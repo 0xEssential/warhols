@@ -3,10 +3,10 @@ import { MintableNonFungibleToken } from 'non-fungible-token-abi';
 import React, { useContext, useState } from 'react';
 import useSWR from 'swr';
 
-import {
-  abi,
-  address as contractAddress,
-} from '../../../contract/deployments/mainnet/Blitpops.json';
+// import {
+//   abi,
+//   address as contractAddress,
+// } from '../../../contract/deployments/mainnet/Blitpops.json';
 import { Web3Context } from '../../contexts/web3Context';
 import Button from '../Button';
 import styles from './styles.module.css';
