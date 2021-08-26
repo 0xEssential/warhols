@@ -84,7 +84,7 @@ export default function Blitmaps({
       <h1>Your Blitmaps</h1>
       <p>
         Minting is exclusive to Blitmap holders. Choose a Blitmap to mint a
-        deriviative.
+        derivative.
       </p>
       <div className={styles.blits}>
         {data?.map(({ tokenId, svgData }) => (
