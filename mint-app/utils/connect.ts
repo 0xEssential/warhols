@@ -14,7 +14,7 @@ export function initOnboard(subscriptions) {
     networkName: 'mainnet',
     apiUrl,
     darkMode: true,
-    subscriptions,
+    subscriptions: null,
     walletSelect: {
       wallets: [
         { walletName: 'metamask' },
@@ -30,6 +30,7 @@ export function initOnboard(subscriptions) {
         {
           walletName: 'walletConnect',
           infuraKey: process.env.INFURA_KEY,
+          networkId: 1,
         },
         { walletName: 'cobovault', appName: 'Blitpop', rpcUrl },
         {
@@ -59,9 +60,9 @@ export function initOnboard(subscriptions) {
       ],
     },
     walletCheck: [
-      { checkName: 'derivationPath' },
-      { checkName: 'connect' },
-      { checkName: 'accounts' },
+      // { checkName: 'derivationPath' },
+      // { checkName: 'connect' },
+      // { checkName: 'accounts' },
     ],
   });
 }

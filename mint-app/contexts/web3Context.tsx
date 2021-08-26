@@ -32,15 +32,12 @@ const Web3ContextProvider = ({ children }: any): ReactElement => {
   useEffect(() => {
     const onboard = initOnboard({
       address: setAddress,
-      network: (network) => {
-        console.warn('SETTING NETWORK', network);
-        setNetwork(network);
-      },
+      network: setNetwork,
       wallet: (wallet) => {
         if (wallet.provider) {
           setWallet(wallet);
 
-          const provider = new Web3Provider(wallet.provider, 'any');
+          const provider = new Web3Provider(wallet.provider, 'mainnet');
 
           // provider.on('network', (newNetwork, oldNetwork) => {
           //   console.warn(newNetwork);
@@ -73,7 +70,7 @@ const Web3ContextProvider = ({ children }: any): ReactElement => {
       window.localStorage.getItem('selectedWallet');
 
     if (previouslySelectedWallet && onboard) {
-      onboard.walletSelect(previouslySelectedWallet);
+      // onboard.walletSelect(previouslySelectedWallet);
     }
   }, [onboard]);
 
