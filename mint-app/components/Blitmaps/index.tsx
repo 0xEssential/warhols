@@ -24,7 +24,7 @@ const ERC721BatcherContract = new Contract(
   ],
 );
 
-const BlitpopContract = new Contract(contractAddress, abi);
+// const BlitpopContract = new Contract(contractAddress, abi);
 
 export default function Blitmaps({
   onSelect,
