@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 
-import Blitmaps from '../components/Blitmaps';
 import Blitpops from '../components/Blitpops';
 import Mint from '../components/Mint';
 import { Web3Context } from '../contexts/web3Context';
@@ -8,7 +7,7 @@ import styles from '../styles/Home.module.css';
 
 export default function Home() {
   const { address } = useContext(Web3Context);
-  const [blitmapId, setBlitmapId] = useState<string>();
+  const [blitmapId, _setBlitmapId] = useState<string>();
   const [blitpopId, setBlitpopId] = useState<string>();
 
   return (
@@ -16,11 +15,15 @@ export default function Home() {
       <div className={styles.headline}>
         <h1 className={styles.title}>BlitPop</h1>
         <p>onchain pop art Blitmap derivatives</p>
+        <p>
+          <small>
+            minting is complete - stay tuned for the next phase of the project!
+          </small>
+        </p>
       </div>
       <div className={styles.article}>
         <div className={styles.mintRow}>
           <div className={styles.blitColumn}>
-            <Blitmaps onSelect={setBlitmapId} />
             <Blitpops onSelect={setBlitpopId} />
           </div>
           {address && <Mint blitmapId={blitmapId} blitpopId={blitpopId} />}
