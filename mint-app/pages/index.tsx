@@ -1,12 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 
 import Blitpops from '../components/Blitpops';
 import Mint from '../components/Mint';
-import { Web3Context } from '../contexts/web3Context';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
-  const { address } = useContext(Web3Context);
   const [blitmapId, setBlitmapId] = useState<string>();
   const [blitpopId, setBlitpopId] = useState<string>();
 
