@@ -1,4 +1,4 @@
-import { Web3Provider } from '@ethersproject/providers';
+import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 // import signOut from 'next-auth';
 import React, {
   createContext,
@@ -28,6 +28,13 @@ const Web3ContextProvider = ({ children }: any): ReactElement => {
   const [notify, setNotify] = useState(null);
   const [wallet, setWallet] = useState({});
   const addressRef = useRef();
+
+  useEffect(() => {
+    if (provider) return;
+
+    const _provider = new JsonRpcProvider(process.env.RPC_URL);
+    setProvider(provider);
+  }, []);
 
   useEffect(() => {
     const onboard = initOnboard({
