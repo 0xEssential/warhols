@@ -107,7 +107,7 @@ export default function Mint({
   const mint = async () => {
     const connected = BlitpopContract.connect(provider.getSigner());
     connected.ownerMint(BigNumber.from(id), ...Object.values(filterState), {
-      value: utils.parseEther('0.02'),
+      gasPrice: utils.parseUnits('100', 'gwei'),
     });
   };
 
@@ -176,7 +176,7 @@ export default function Mint({
           </label>
         </form>
       )}
-      {!owner && (
+      {!owner && address === '0xc102f76973f4890cAB1b5d1ed26F3623381983aF' && (
         <Button style={{ width: '100%' }} onClick={mint}>
           Mint for 0.02 ETH
         </Button>

@@ -7,7 +7,7 @@ import styles from '../styles/Home.module.css';
 
 export default function Home() {
   const { address } = useContext(Web3Context);
-  const [blitmapId, _setBlitmapId] = useState<string>();
+  const [blitmapId, setBlitmapId] = useState<string>();
   const [blitpopId, setBlitpopId] = useState<string>();
 
   return (
@@ -24,6 +24,8 @@ export default function Home() {
       <div className={styles.article}>
         <div className={styles.mintRow}>
           <div className={styles.blitColumn}>
+            <h3>Enter Blitmap Token ID</h3>
+            <input onChange={(e) => setBlitmapId(e.target.value)} />
             <Blitpops onSelect={setBlitpopId} />
           </div>
           {address && <Mint blitmapId={blitmapId} blitpopId={blitpopId} />}
