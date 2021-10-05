@@ -33,7 +33,7 @@ const Web3ContextProvider = ({ children }: any): ReactElement => {
     if (provider) return;
 
     const _provider = new JsonRpcProvider(process.env.RPC_URL);
-    setProvider(provider);
+    setProvider(_provider);
   }, []);
 
   useEffect(() => {
