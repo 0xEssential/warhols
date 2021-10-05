@@ -125,7 +125,7 @@ export default function Mint({
     );
   }
 
-  if (!address || !filters) {
+  if (!filters) {
     return (
       <div className={styles.root}>
         <h1>Blitpop Minter</h1>

@@ -28,7 +28,7 @@ export default function Home() {
             <input onChange={(e) => setBlitmapId(e.target.value)} />
             <Blitpops onSelect={setBlitpopId} />
           </div>
-          {address && <Mint blitmapId={blitmapId} blitpopId={blitpopId} />}
+          <Mint blitmapId={blitmapId} blitpopId={blitpopId} />
         </div>
       </div>
       <div className={styles.footer}>
